@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="register.js" defer></script>
+    <title>Registrarse</title>
+</head>
+<body>
+
+    <main>
+        <div class="form-container">
+            <h1>Crear cuenta</h1>
+            <p>Completa el formulario con Exito para crear tu cuenta</p>
+
+            <form id="register-form">
+
+                <label for="user" class="diminuto">Name</label>
+                <input type="text" name="user" id="user" placeholder="Nombres del Usuario">
+
+                <label for="lastname" class="diminuto">LastName</label>
+                <input type="text" name="lastname" id="lastname" placeholder="Apellidos del usuario">
+
+                <label for="email" class="diminuto">Email</label>
+                <input type="email" name="email" id="email" placeholder="Correo Electronico">
+                
+                <label for="select" class="diminuto">Tipo de Documento</label>
+                <select class="select" for="select" id="select">
+                    <option value="0">Desplegar...</option>
+                    <option value="Tarjeta de Identidad">Tarjeta de Identidad.</option>
+                    <option value="Cedula de Ciudadania">Cedula de Ciudadania.</option>
+                    <option value="Cedula de Extrangeria">Cedula de Extrangeria.</option>
+                    <option value="Pasaporte">Pasaporte</option>
+                </select>
+
+                <label for="numDoc" class="diminuto">Numero de documento</label>
+                <input type="text" name="numDoc" id="numDoc" placeholder="Numero de Documento">
+
+                <label for="password" class="diminuto">Contraseña</label>
+                <input type="password" name="password" id="password" placeholder="Contraseña">
+
+                <label for="confirmPassword" class="diminuto">Confirmacion de Contraseña</label>
+                <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirmacion de Contraseña">
+
+                <button type="submit">Ingresar</button>
+                <p class="error escondido">Error al registrarse!!!</p>
+            </form>
+            <p>Ya tienes cuenta? <a href="/login">Iniciar sesion.</a></p>
+        </div>
+    </main>
+</body>
+</html>

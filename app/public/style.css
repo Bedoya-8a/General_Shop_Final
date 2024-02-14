@@ -1,0 +1,76 @@
+
+body {
+    padding: 0;
+    margin: 0;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100svh;
+    font-size: larger;
+    text-align: center;
+    background-image: url(https://img.freepik.com/foto-gratis/tablas-madera-tienda-ropa-borrosa-fondo_1253-47.jpg?size=626&ext=jpg&ga=GA1.1.1826414947.1699660800&semt=ais);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+
+.form-container{
+    width: 500px;
+    background-color: rgba(103, 216, 216, 0.705);
+    border-radius: 15px;
+    padding: 55px;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+form+p, form p{
+    text-align: center;
+}
+
+.titulo{
+    text-align: center;
+}
+
+.select{
+    border: unset;
+    border-radius: 5px;
+    padding: 15px 30px;
+    font-size: larger;  
+    appearance: none;  
+}
+input, button{
+    border: unset;
+    border-radius: 5px;
+    padding: 15px 30px;
+    font-size: larger;
+}
+button{
+    background-color: rgb(3, 148, 148);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.error{
+    color: red;
+}
+
+.escondido{
+    display: none;
+}
+.diminuto{
+    position: absolute;
+    left: -100000px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+/* Aqui empiesa el style de Home*/
+
