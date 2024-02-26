@@ -1,12 +1,10 @@
-const mensajeError = document.getElementsByClassName("error")[0];
-
-document.getElementById("register-form").addEventListener("submit", async(e)=>{
+document.getElementById("register-form").addEventListener("submit",async(e) => {
     e.preventDefault();
     console.log(e.target.children.user.value)
-    const res = await fetch("/api/register",{
+    const res = await fetch("http://localhost:80/api/register", {
         method:"POST",
         headers:{
-            "Content-Type" : "application/json"
+            "content-Type" : "application/json"
         },
         body: JSON.stringify({
             user: e.target.children.user.value,
@@ -18,9 +16,4 @@ document.getElementById("register-form").addEventListener("submit", async(e)=>{
             confirmPassword: e.target.children.confirmPassword.value
         })
     });
-    if(!res.ok) return mensajeError.classList.toggle("escondido",false);
-    const resJson = await res.json();
-    if(resJson.redirect){
-        window.location.href = resJson.redirect;
-    }
-})
+})  
