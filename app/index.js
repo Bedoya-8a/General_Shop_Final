@@ -25,7 +25,7 @@ app.use(express.json());
 
 //Rutas
 
-app.get("/homeI.html",(req,res)=> res.sendFile(__dirname + "/pages/homeI.html"));
+app.get("/homeI",(req,res)=> res.sendFile(__dirname + "/pages/homeI.html"));
 
 app.get("/home",(req,res)=> res.sendFile(__dirname + "/pages/home.html"));
 
@@ -39,7 +39,7 @@ app.get("/login",(req,res)=> res.sendFile(__dirname + "/pages/login.html"));
 
 app.get("/register",(req,res)=> res.sendFile(__dirname + "/pages/register.html"));
 
-app.post("/api/login"),authentication.login;
+app.post("/api/login",authentication.login);
 app.post("/api/register",authentication.register);
 
 

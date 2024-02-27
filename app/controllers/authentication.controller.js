@@ -1,3 +1,9 @@
+/* SE IMPORTA LA LIBRERIA PARA ENCRIPTAR LAS CONTRASEÑAS */
+import bcryptjs from "bcryptjs";
+import bcrypt from "bcrypt";
+import mongoose from "mongoose"
+
+
 /****************** COENXIÓN BD ******************/
 
 import { MongoClient } from "mongodb";
@@ -13,14 +19,56 @@ async function connect() {
     }
     db = client.db('General_Shop');
 }
-/****************** CONEXIÓN BD ******************/
+
 
 
 /****************** FUNCIÓN LOGIN ******************/
-async function login(req,res){
-    
+// Función para comparar la contraseña ingresada con la contraseña almacenada en la base de datos
+async function comparePassword(password, hashedPassword) {
+    return await bcrypt.compare(password, hashedPassword);
+}
+
+// Función de inicio de sesión de usuarios
+async function login(req, res) {
+    console.log(req.body);
+
+    const email = req.body.email;
+    const password = req.body.password;
+
+    // Valida los campos
+    if (!email || !password) {
+        return res.status(400).send({ status: "Error", message: "Los campos están incompletos" });
+    }
+
+    // Función para verificar si el usuario existe
+    async function userExists(email) {
+        await connect();
+        const user = await db.collection('Usuarios').findOne({ email });
+        return user !== null;
+    }
+
+    // Verifica si el usuario existe
+    if (!(await userExists(email))) {
+        return res.status(400).send({ status: "Error", message: "El Usuario no existe" });
+    }
+
+    // Compara la contraseña ingresada con la contraseña almacenada en la base de datos
+    const user = await db.collection('Usuarios').findOne({ email });
+    const isPasswordValid = await comparePassword(password, user.password);
+
+    // Si la contraseña es válida, redirige al usuario al home
+    if (isPasswordValid) {
+        return res.status(200).send({ status: "Ok", message: "Inicio de sesión exitoso", redirect: "./homeI" });
+    }
+
+    // Si la contraseña no es válida, arroja un error
+    return res.status(400).send({ status: "Error", message: "La contraseña es incorrecta" });
 
 }
+
+/**** LOGIN ****/
+
+
 
 /**************** FUNCIÓN REGISTER ****************/
 async function register(req,res){
@@ -35,17 +83,17 @@ async function register(req,res){
       
       /*************VALIDA LOS CAMPOS **************/
       if (!user ||!lastname ||!email ||!select ||!numDoc ||!password ||!confirmPassword){
-        res.status(400).send({ status:"Error", message: "Los campos estan incompletos" });
+        return res.status(400).send({ status:"Error", message: "Los campos estan incompletos" });
         return;
       }
       /**********VALIDA LAS CONTRASEÑAS ************/
       if (password !== confirmPassword) {
-        res.status(400).send({ status:"Error", message: "Las contraseñas no coinciden" });
+        return res.status(400).send({ status:"Error", message: "Las contraseñas no coinciden" });
         return;
       }
       /***** VALIDA LA CANTIDAD DE CARACTERES ******/
       if (password.length < 5) {
-        res.status(400).send({ status:"Error", message: "La contraseña debe tener al menos 5 caracteres" });
+        return res.status(400).send({ status:"Error", message: "La contraseña debe tener al menos 5 caracteres" });
         return;
     }
 
@@ -56,17 +104,21 @@ async function register(req,res){
             return user !== null;
     }
 
+    /********** ENCRIPTA LAS CONTRASEÑAS *********/
+    async function hashPassword(password) {
+        const saltRounds = 10;
+        const hashedPassword = await bcryptjs.hash(password, saltRounds);
+        return hashedPassword;
+      }
 
-
-
-      /********** REGISRO Y ENVIO DE DATOS *********/
+    
       try {
-        // /***** VALIDA POR EMAIL LOS USUARIOS EXISTENTES ******/ 
         if (await userExists(email)) {
-            res.status(400).send({ status:"Error", message: "El Usuario ya existe" });
+            return res.status(400).send({ status:"Error", message: "El Usuario ya existe" });
         return;
         }
-
+        /********** HASHEA O ENCRIPTA LA CONTRASEÑA *********/
+        const hashedPassword = await hashPassword(password);
 
         await connect();
         const result = await db.collection('Usuarios').insertOne({
@@ -75,8 +127,16 @@ async function register(req,res){
             email,
             select,
             numDoc,
-            password
+            password: hashedPassword,
+            confirmPassword: hashedPassword
         });
+
+// /***** NOS REDIRECCIONA DESPUES DEL REGISTRO ******/ 
+        return res.status(201).send({
+            status: "Ok",
+            message: `Usuario agregado`,
+            redirect: "./homeI",
+          });
 
         console.log('Usuario registrado con éxito:', result.insertedId);
     } catch (error) {
@@ -86,8 +146,6 @@ async function register(req,res){
 
 
       
-
-
 
 
 
