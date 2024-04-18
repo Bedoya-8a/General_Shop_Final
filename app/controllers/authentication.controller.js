@@ -150,7 +150,9 @@ async function register(req,res){
 
 
 
-
+export const connection ={
+    connect
+}
 
 export const methods ={
     login,

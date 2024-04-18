@@ -1,16 +1,19 @@
 import express from "express";
+import  bodyParser  from "body-parser";
+import  mongoose  from "mongoose";
+import { MongoClient } from "mongodb";
 
 //para __dirname
 import path from 'path';
 import {fileURLToPath} from 'url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 import { methods as authentication } from "./controllers/authentication.controller.js";
-
+import { connection } from "./controllers/authentication.controller.js"
 
 
 //Servidor
 const app = express();
-app.set ("port",80);
+app.set ("port",80 );
 app.listen(app.get("port"));
 console.log("Servidor corriendo en el puerto",app.get("port"));  
 
@@ -26,6 +29,10 @@ app.use(express.json());
 //Rutas
 
 app.get("/homeI",(req,res)=> res.sendFile(__dirname + "/pages/homeI.html"));
+
+app.get("/homeI.html",(req,res)=> res.sendFile(__dirname + "/pages/homeI.html"));
+
+app.get("/productos",(req,res)=> res.sendFile(__dirname + "/pages/homeI.html"));
 
 app.get("/home",(req,res)=> res.sendFile(__dirname + "/pages/home.html"));
 
@@ -43,15 +50,64 @@ app.post("/api/login",authentication.login);
 app.post("/api/register",authentication.register);
 
 
-/*************CONEXIÓN BD*************/ 
+// /************* PRODUCTOS *************/ 
+
+// app.get('/api/hombre.html', async (req, res) => {
+//   // Obtiene todos los productos de la base de datos
+//   const productos = await Productos.find();
+
+//   // Envía los productos como respuesta
+//   res.json(productos);
+// });
 
 
 
-/*************CONEXIÓN BD*************/ 
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// app.get('/api/productos', async (req, res) => {
+//   if (!client.isConnected()) await client.connect();
+//   const collection = client.db("General_Shop").collection("productos");
+//   const products = await collection.find().toArray();
+//   res.json(products);
+// });
 
 
 
